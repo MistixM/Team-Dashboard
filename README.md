@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://i.postimg.cc/HL35FzTp/team-dashboard-cover.jpg" alt="Team Dashboard banner" width="100%"/>
+
 # Team Dashboard
 
 ### Manage your team, invoices, and schedules in one place.

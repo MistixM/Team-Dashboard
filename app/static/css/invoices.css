@@ -1,0 +1,624 @@
+.panel-invoice {
+    display: flex;
+    flex-direction: column;
+    gap: 55px;
+
+    height: 630px;
+    min-width: 630px;
+    width: 1195px;
+    background-color: var(--third-bg-color);
+    padding: 70px 50px;
+    border-radius: 20px;
+}
+
+.panel-invoice-first {
+    display: flex;
+    justify-content: space-between;
+}
+
+.panel-first-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.panel-invoice-first h3 {
+    font-family: 'K2D';
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--text-color-primary);
+}
+
+.panel-invoice-first p {
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 300;
+
+    color: var(--text-color-primary);
+}
+
+
+#upload-invoice {
+    width: 125px;
+    height: 40px;
+
+    color: var(--text-color-primary);
+    font-family: 'K2D';
+    font-size: 0.813rem;
+    background-color: var(--button-primary-color);
+
+    transition: background-color linear 0.1s;
+}
+
+#upload-invoice:hover {
+    background-color: var(--button-hover-color);
+}
+
+
+.panel-tab-scrollable {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    border-radius: 20px;
+    padding: 20px;
+    background-color: var(--button-secondary-color);
+}
+
+.user_cards {
+    display: flex;
+    gap: 20px;
+    padding-right: 45px;
+    overflow-x: scroll;
+    scrollbar-width: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+}
+
+
+#user-cards::-webkit-scrollbar {
+    width: 8px;
+}
+
+.user_cards::-webkit-scrollbar {
+  height: 8px;
+}
+
+.user_cards::-webkit-scrollbar-track,
+#user-cards::-webkit-scrollbar-track {
+  background: none;
+}
+
+.user_cards::-webkit-scrollbar-thumb,
+#user-cards::-webkit-scrollbar-thumb {
+  background-color: var(--button-primary-color);
+  border-radius: 8px;
+}
+
+.user_cards::-webkit-scrollbar-thumb:hover,
+#user-cards::-webkit-scrollbar-thumb:hover {
+  background-color: #0e67d2;
+}
+
+
+.user_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    width: 160px;
+    flex-shrink: 0;
+    padding: 20px 32px;
+    background-color: var(--third-bg-color);
+    border-radius: 20px;
+}
+
+.user_item_single {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+.user_item_single h3 {
+    margin-top: 16px;
+    margin-bottom: 5px;
+
+    font-family: 'K2D';
+    font-weight: 400;
+    font-size: 25px;
+    text-align: center;
+    color: var(--text-color-primary);
+}
+
+.user_item_single span {    
+    font-family: 'K2D';
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    color: rgba(227, 227, 227, 0.4);
+}
+
+.user_item p {
+    max-width: 170px;
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 20px;
+    color: #fff;
+}
+
+.user_item button {
+    width: 125px;
+    height: 40px;
+    background-color: var(--button-primary-color);
+    border-radius: 10px;
+    color: var(--text-color-primary);
+    font-family: "K2D";
+    font-size: 13px;
+
+    transition: background-color linear 0.1s;
+}
+
+.user_item button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.status-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 163px;
+}
+
+.invoice-status {
+    font-family: 'K2D';
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(227, 227, 227, 0.4);
+}
+
+.img-bg {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    width: 104px;
+    height: 104px;
+
+    border-radius: 50%;
+
+}
+
+/* Popups */
+#invoice-upload-popup div,
+#invoice-removal-popup div {
+    width: auto;
+}
+
+.user-add-popup {
+    position: fixed;
+
+    width: 550px;
+
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    z-index: 999;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);    
+}
+
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    backdrop-filter: blur(20px);
+    background: rgba(0,0,0,0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.user-add-popup {
+    background-color: var(--button-secondary-color);
+    border-radius: 20px;
+    padding: 30px 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.user-popup-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#invoices-tab {
+    height: 400px;
+}
+
+.invoice-data {
+    max-width: 372px;
+}
+
+.invoice-data p,
+.invoice-data span {
+    font-family: "K2D";
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 20px;
+    color: var(--text-color-primary);
+}
+
+
+.invoice-details-btn {
+    align-self: center;
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    background-color: var(--button-primary-color);
+    color:var(--text-color-primary);
+
+    transition: background-color linear 0.1s;
+}
+
+.invoice-details-btn:hover {
+    background-color: var(--button-hover-color);
+}
+
+.delete-invoice:hover {
+    background-color: var(--button-close-hover-color) !important;
+}
+
+.invoice-primary-data {
+    display: flex;
+    gap: 30px;
+}
+
+.invoice-title-block,
+.date-block,
+.billed-to-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.invoice-title-block span,
+.date-block span,
+.billed-to-block span {
+    font-family: 'K2D';
+    font-weight: 500;
+    color: var(--text-color-primary);
+    font-size: 16px;
+}
+
+.date-block input {
+    cursor: pointer;
+}
+.invoice-title-block input,
+.date-block input,
+.billed-to-block input {
+    width: 230px;
+    padding: 15px;
+
+    background-color: rgb(217,217,217, 0.2);
+
+    border-radius: 10px;
+
+    color: #fff;
+
+    font-family: 'Inter';
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.invoice-title-block input ::placeholder,
+.date-block input ::placeholder,
+.billed-to-block input ::placeholder {
+    color: #A3A3A3;
+    font-family: 'Inter';
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.user-add-submit {
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    background-color: var(--button-primary-color);
+    color:var(--text-color-primary);
+
+    transition: background-color linear 0.1s;
+}
+
+.user-add-submit:hover {
+    background-color: var(--button-hover-color);
+}
+
+.user-add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.invoice-popup-title {
+    font-family: 'K2D';
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--text-color-primary);
+}
+
+#invoice-removal-submit {
+    align-self: center;
+    background-color: var(--button-close-color) !important;
+}
+
+#invoice-removal-submit:hover {
+    background-color: var(--button-close-hover-color) !important;
+}
+
+.invoice-popup-desc {
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 200;
+    text-align: center;
+    color: var(--text-color-primary);
+}
+
+.invoice-upload-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.invoice-item-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#invoice-items {
+    /* TODO: update this on prod */
+    max-height: 180px;
+    overflow-y: auto;
+    padding-right: 20px;
+
+    /* ENDTODO */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* TODO: update this in prod */
+#invoice-items::-webkit-scrollbar {
+    width: 8px;
+}
+
+#invoice-items::-webkit-scrollbar {
+  height: 8px;
+}
+#invoice-items::-webkit-scrollbar-track {
+  background: none;
+}
+
+#invoice-items::-webkit-scrollbar-thumb {
+  background-color: var(--button-primary-color);
+  border-radius: 8px;
+}
+
+#invoice-items::-webkit-scrollbar-thumb:hover {
+  background-color: #0e67d2;
+}
+
+/* ENDTODO */
+
+.invoice-item-heading span {
+    font-family: 'K2D';
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-color-primary);
+}
+
+.invoice-item-heading button {
+    width: 40px; height: 40px;
+    background-color: var(--button-primary-color);
+    padding: 15px;
+
+    transition: background-color linear 0.1s;
+}
+
+.invoice-item-heading button:hover {
+    background-color: var(--button-hover-color);
+}
+
+
+.item {
+    display: flex;
+    gap: 35px;
+}
+
+.item-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.item button {
+    width: 40px; height: 40px;
+    background-color: var(--button-close-color);
+    transition: background-color linear 0.1s;
+}
+
+.item button:hover {
+    background-color: var(--button-close-hover-color);
+}
+
+.item input,
+.item input {
+    width: 190px;
+    padding: 15px;
+
+    background-color: rgb(217,217,217, 0.2);
+
+    border-radius: 10px;
+
+    color: #fff;
+
+    font-family: 'Inter';
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.item input ::placeholder,
+.item input ::placeholder {
+    color: #A3A3A3;
+    font-family: 'Inter';
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.invoice-details-title {
+    font-family: 'K2D';
+    font-size: 25px;
+    font-weight: 400;
+    color: var(--text-color-primary);
+}
+
+.invoice-details-desc {
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 200;
+    color: var(--text-color-primary);
+}
+
+#invoice-statuses {
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 200;
+    color: var(--text-color-primary);
+
+    cursor: pointer;
+    align-self: center;
+    border: 0;
+    border-radius: 20px;
+    
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    background-color: var(--button-secondary-color);
+    color:var(--text-color-primary);
+    
+    transition: background-color linear 0.1s;
+}
+
+#invoice-statuses:hover {
+    background-color: var(--button-hover-color);
+}
+
+
+/* Media requests */
+
+@media (max-width: 768px) {
+    .panel-invoice {
+        min-width: 400px;
+        padding: 20px;
+        gap: 30px;
+    }
+    .panel-invoice-first {
+        display: flex;
+        flex-direction: row;
+    }
+    #user-cards {
+        grid-template-columns: repeat(2, 2fr);
+        max-height: 350px;
+    }
+    #user-tab {
+        padding: 20px;
+    }
+    .user_item {
+        padding: 20px 20px;
+    }
+}
+
+@media (max-width: 580px) {
+    .overlay {
+        width: 100%;
+    }
+    .user-add-popup {
+        width: 390px;
+    }
+    
+    .item-input {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        align-items: center;
+    }
+    .invoice-primary-data {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .item-input-name {
+        width: auto !important;
+    }
+
+    .item-input-price,
+    .item-input-qty {
+        width: 50px !important;
+    }
+
+    .item-input-qty {
+        margin-right: 0 !important;
+    }
+}
+
+@media (max-width: 460px) {
+    .user-add-popup {
+        width: 330px;
+    }
+    .panel-invoice {
+        min-width: 300px;
+    }
+
+    .item-input-name {
+        width: 85px !important;
+    }
+
+    .item-input-price,
+    .item-input-qty {
+        width: 50px !important;
+    }
+
+    .item-input-qty {
+        margin-right: 0 !important;
+    }
+
+    .panel-admin {
+        min-width: 300px;
+    }
+    .panel-invoice-first {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .panel-invoice-first h3 {
+        font-size: 25px;
+    }
+    
+}

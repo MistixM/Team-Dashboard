@@ -1,0 +1,277 @@
+.panel-calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 55px;
+
+    height: 630px;
+    min-width: 630px;
+    width: 1195px;
+    background-color: var(--third-bg-color);
+    padding: 70px 50px;
+    border-radius: 20px;
+}
+
+.panel-first-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.heading {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.panel-first-heading h3 {
+    font-family: 'K2D';
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--text-color-primary);
+}
+
+.panel-first-heading p {
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 300;
+
+    color: var(--text-color-primary);
+}
+
+
+#set-event {
+    align-self: center;
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    background-color: var(--button-primary-color);
+    color:var(--text-color-primary);
+
+    transition: background-color linear 0.1s;
+}
+
+#set-event:hover {
+    background-color: var(--button-hover-color);
+}
+
+
+
+.calendar-title-block,
+.date-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.calendar-title-block span,
+.date-block span {
+    font-family: 'K2D';
+    font-weight: 500;
+    color: var(--text-color-primary);
+    font-size: 16px;
+}
+
+.date-block input {
+    cursor: pointer;
+}
+.calendar-title-block input,
+.date-block input {
+    width: 230px;
+    padding: 15px;
+
+    background-color: rgb(217,217,217, 0.2);
+
+    border-radius: 10px;
+
+    color: #fff;
+
+    font-family: 'Inter';
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.calendar-title-block input ::placeholder,
+.date-block input ::placeholder {
+    color: #A3A3A3;
+    font-family: 'Inter';
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.calendar-buttons button {
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    background-color: var(--button-primary-color);
+    color:var(--text-color-primary);
+
+    transition: background-color linear 0.1s;
+}
+
+.calendar-buttons button:hover {
+    background-color: var(--button-hover-color);
+}
+
+
+#calendar {
+    height: 550px;
+}
+
+#calendar h2,
+#calendar button {
+    font-family: 'K2D';
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--text-color-primary);
+}
+
+#calendar a {
+    font-family: 'Inter';
+    font-weight: 300;
+    font-size: 18px;
+    color: #000;
+}
+
+.fc-event-title,
+.fc-event-time {
+    font-size: 16px;
+    color: #fff;
+}
+
+#calendar button {
+    background-color: var(--button-secondary-color);
+    border: 0;
+
+    transition: background-color linear 0.1s;
+}
+
+#calendar button:hover {
+    background-color: var(--button-primary-color);
+}
+
+
+.fc-day {
+    background-color: #fff;
+    color: var(--text-color-primary);
+}
+
+.fc-day-today {
+    background-color: #c5c5c5 !important;
+    border: 1px solid #ddd;
+}
+
+.fc-daygrid-day {
+    cursor: pointer;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+}
+
+.fc-event {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+
+    transition: background-color linear 0.1s;
+}
+
+.fc-event:hover {
+    background-color: var(--button-secondary-color);
+}
+
+/* Popups */
+.user-add-popup {
+    position: fixed;
+
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    z-index: 999;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+
+    background-color: var(--button-secondary-color);
+    border-radius: 20px;
+    padding: 30px 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    backdrop-filter: blur(20px);
+    background: rgba(0,0,0,0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.calendar-popup-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.calendar-title {
+    font-family: "K2D";
+    font-weight: 400;
+    font-size: 25px;
+    color: var(--text-color-primary);
+}
+
+.calendar-desc {
+    font-family: "K2D";
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 20px;
+    color: var(--text-color-primary);
+}
+
+.calendar-add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.calendar-primary-data {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.calendar-primary-data input {
+    width: auto;
+}
+
+/* Media requests */
+@media (max-width: 768px) {
+    .panel-calendar {
+        min-width: 400px;
+        padding: 20px;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 460px) {
+
+    .panel-calendar {
+        min-width: 300px;
+    }
+
+}

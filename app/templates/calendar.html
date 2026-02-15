@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calendar.css') }}">
+{% endblock %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block body %}
+<div class="panel-container">
+    {% include 'sidebar.html' %}
+    <div class="panel-calendar">
+        <div class="panel-first-heading">
+            <div class="heading">
+                <h3>Calendar</h3>
+                <p>View your calendar and scheduled meetings. Create an event by clicking on a date.</p>
+            </div>
+            <button id="set-event">Set event</button>
+        </div>
+
+        <div id="calendar"></div>
+    </div>
+</div>
+<div class="popup">
+    <div class="overlay" id="calendar-add-event-popup">
+        <div class="user-add-popup">
+            <div class="calendar-popup-heading">
+                <span class="calendar-title">Set the event</span>
+                <p class="calendar-desc">Set the event for your calendar.</p>
+            </div>
+            <form action="POST" class="calendar-add-form">
+                <div class="calendar-primary-data">
+                    <div class="calendar-title-block">
+                        <span>Event title</span>
+                        <input id="event-title-input" type="text" placeholder="Enter event title" required>
+                    </div>
+                    <div class="date-block">
+                        <span>Date</span>
+                        <input type="date" id="date-block-add" placeholder="Choose date" required>
+                    </div>
+                </div>
+                <div class="calendar-buttons">
+                    <button type="button" id="calendar-add-btn" class="user-add-submit">Submit</button>
+                    <button type="button" class="invoice-details-btn" id="close-calendar" data-popup-close="calendar-add-event-popup">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

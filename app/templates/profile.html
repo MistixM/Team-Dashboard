@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+<div class="panel-container">
+    {% include 'sidebar.html' %}
+    <div class="panel-profile">
+        <div class="panel-first-heading">
+            <h3>Profile</h3>
+            <p>View and easily customize your profile here.</p>
+        </div>
+        <div class="panel-second">
+            <div class="profile-tab">
+                <div class="profile-inputs">
+                    <form method="POST" action="/edit-profile" class="profile-form">
+                        <div class="name-block">
+                            <span>Name</span>
+                            <input type="text" name="name" value="{{ current_user.name }}" placeholder="Enter name">
+                        </div>
+                        <div class="desc-block">
+                            <span>Bio</span>
+                            <textarea placeholder="Enter bio" name="bio" style="resize:vertical;max-height:160px;min-height:50px;border:0;">{{ current_user.bio }}</textarea>
+                        </div>
+                        <div class="email-block">
+                            <span>Email</span>
+                            <input type="email" name="email" value="{{ current_user.email }}" placeholder="Enter email">
+                        </div>  
+                        {% with messages = get_flashed_messages(with_categories=True) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="profile-flash {{ category }}">
+                                        {{ message }}
+                                    </div>
+                                    <script>
+                                        setTimeout(() => {
+                                            const flash = document.querySelector('.profile-flash');
+                                            if (flash) {
+                                                flash.style.display = 'none';
+                                            }
+                                        }, 4000);
+                                    </script>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <button type="submit" id="edit-btn" style="display: none;">Save changes</button>   
+                    </form>
+                </div>
+                <div class="profile-other">
+                    <span class="photo-title">Profile photo</span>
+                    <form method="POST" action="{{ url_for('upload_avatar') }}" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px;align-items: center;">
+                        <img src="{{ url_for('static', filename=current_user.profile_img) }}" width="140" height="140" style="border-radius: 50%; object-fit:cover">
+                        <input type="file" name="avatar" id="upload-photo-tg" accept="image/*" style="display: none;">
+                        <button id="upload-photo">Upload photo</button>
+                    </form>
+                    <form method="POST" action="{{ url_for('delete_avatar') }}">
+                        <button id="delete-photo" {% if 'default' in current_user.profile_img %}style='display: none'{% endif %}>Delete</button>
+                    </form>
+                    <div class="profile-other-date">
+                        <span>Joined:{{ current_user.joined }}</span>
+                        <span><b>Role:</b> {{ current_user.role.capitalize() }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="insights-tab">
+                <span class="insights-title">Your insights</span>
+                <div class="insigths-list">
+                    <div class="insight-item">
+                        <span class="item-title">Total invoices</span>
+                        <span class="item-amount">{{ current_user.invoices_count }}</span>
+                    </div>                    
+                    <div class="insight-item">
+                        <span class="item-title">Total todos</span>
+                        <span class="item-amount">{{ current_user.todo_count }}</span>
+                    </div>                    
+                    <div class="insight-item">
+                        <span class="item-title">Total revenue</span>
+                        <span class="item-amount">${{ current_user.revenue }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

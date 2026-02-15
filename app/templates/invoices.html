@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/invoices.css') }}">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+{% endblock %}
+
+{% block title %}Invoices{% endblock %}
+
+{% block body %}
+<div class="panel-container">
+    {% include 'sidebar.html' %}
+    <div class="panel-invoice">
+        <div class="panel-invoice-first">
+            <div class="panel-first-heading">
+                <h3>Invoices</h3>
+                <p>Manage and upload your invoices here.</p>
+            </div>
+            <button id="upload-invoice">Upload invoice</button>
+        </div>
+
+        <div class="panel-tab-scrollable" id="invoices-tab">
+            <select name="invoice-statuses" id="invoice-statuses">
+                <option value="requested">Requested</option>
+                <option value="paid">Paid</option>
+                <option value="declined">Declined</option>
+            </select>
+            <ul class="user_cards">
+                {% if _invoices %}
+                    {% for invoice in _invoices %}
+                        <li class="user_item" id="invoice-item">
+                            <div class="user_item_single">
+                                <div class="img-bg" style="background-color: {{ invoice.color }};">
+                                    <img src="{{ url_for('static', filename='images/invoice.svg') }}" width="48">
+                                </div>
+                                <h3>{{ invoice.title[:10] }}{% if invoice.title|length > 10 %}...{% endif %}</h3>
+                                <span class="invoice-status">Status: {{ invoice.status.capitalize() }}</span>
+                            </div>
+                            <div class="status-btns">
+                                <button class="details" style="width: 100%;" id="invoice-view-details"
+                                data-name="{{ invoice.title }}"
+                                data-date="{{ invoice.date_created }}"
+                                data-status="{{ invoice.status }}"
+                                data-items='{{ invoice.items_json }}'
+                                data-from="{{ invoice.from_address | e }}"
+                                data-number="{{ invoice.id }}"
+                                data-note="{{ invoice.note }}">View details</button>
+                                <button class="delete-invoice" data-invoice-id="{{ invoice.id }}" style="background-color: var(--button-close-color);width: 100%;">Delete</button>
+                            </div>
+                        </li>    
+                    {% endfor %}
+                {% else %}
+                    <p style="color: var(--text-color-primary); font-family: 'K2D';">No invoices found</p>    
+                {% endif %}             
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="popups">
+    <div class="overlay" id="invoice-details-popup">
+        <div class="user-add-popup">
+            <div class="user-popup-heading">
+                <span class="invoice-details-title">View Project X invoice</span>
+                <p class="invoice-details-desc">View invoice details, statuses and notes here.</p>
+            </div>
+            <div class="invoice-data" style="font-family: Arial, sans-serif; max-width: 700px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <h2 style="margin: 0; font-family: 'K2D'; font-weight: 200; color: var(--text-color-primary)">Team Dashboard</h2>
+                        <p style="margin: 4px 0; font-family: 'K2D'; font-weight: 200;">255 S Orange Avenue<br>Suite 104 #2397<br>Orlando, FL, 23801</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <h3 style="margin-bottom: 0; color: var(--text-color-primary)">INVOICE</h3>
+                        <p style="margin: 4px 0; color: var(--text-color-primary)" id="invoice-date"><strong>Date:</strong> 12.12.1999</p>
+                        <p style="margin: 4px 0; color: var(--text-color-primary)" id="invoice-number"><strong>Invoice #:</strong> INV-00123</p>
+                    </div>
+                </div>
+
+                <!-- Billing Info -->
+                <div style="margin: 20px 0;" id="billing-info">
+                    <p><strong>Billed To:</strong></p>
+                    <p style="margin: 4px 0;">Client Company Name</p>
+                    <p style="margin: 4px 0;">Client Address Line 1</p>
+                    <p style="margin: 4px 0;">Client Address Line 2</p>
+                </div>
+
+                <!-- Items Table -->
+                <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; border-bottom: 2px solid #ccc; padding: 8px; color: var(--text-color-primary)">Description</th>
+                            <th style="text-align: center; border-bottom: 2px solid #ccc; padding: 8px; color: var(--text-color-primary)">Quantity</th>
+                            <th style="text-align: right; border-bottom: 2px solid #ccc; padding: 8px; color: var(--text-color-primary)">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 8px; color: var(--text-color-primary)">Video edit work</td>
+                            <td style="padding: 8px; text-align: right; color: var(--text-color-primary)">$500</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; color: var(--text-color-primary)">Video marketing</td>
+                            <td style="padding: 8px; text-align: right; color: var(--text-color-primary)">$499</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td style="padding: 8px; border-top: 2px solid #ccc; color: var(--text-color-primary)"><strong>Total</strong></td>
+                            <td style="padding: 8px; text-align: right; border-top: 2px solid #ccc; color: var(--text-color-primary)"><strong>$999</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <!-- Status & Notes -->
+                <div style="margin-top: 30px;" id="status-notes">
+                    <p><strong>Status:</strong> <span style="color: red;">Declined</span></p>
+                    <p><strong>Notes:</strong> Additional information required</p>
+                </div>
+            </div>
+            <div class="invoice-buttons" style="display: flex; gap: 20px; justify-content: center;">
+                <!-- <button type="button" class="invoice-details-btn" id="download-pdf-btn">Download PDF</button> -->
+                <button type="submit" class="invoice-details-btn" id="invoice-details" data-popup-close="invoice-details-popup">Close</button>
+            </div>
+        </div>            
+    </div>
+    <div class="overlay" id="invoice-upload-popup">
+        <div class="user-add-popup">
+            <div class="user-popup-heading">
+                <span class="invoice-details-title">Upload your invoice</span>
+                <p class="invoice-details-desc">Insert necessary information for your invoice</p>
+            </div>
+            <form method="POST" action="/invoice-upload" class="user-add-form">
+                <div class="invoice-primary-data">
+                    <div class="invoice-title-block">
+                        <span>Invoice title</span>
+                        <input type="text" name="title" placeholder="Enter invoice title" required>
+                    </div>
+                    <div class="date-block">
+                        <span>Date</span>
+                        <input type="date" name="date" placeholder="Choose date" required>
+                    </div>
+                </div>
+                <div class="billed-to-block">
+                    <span>From</span>
+                    <input style="width: 90%;" type="text" name="from" placeholder="Enter your address" required>
+                </div>
+                <div id="invoice-items">
+                    <div class="invoice-item-heading">
+                        <span>Items</span>
+                        <button id="add-item"><img src="{{ url_for('static', filename='images/plus-sign.svg') }}"></button>
+                    </div>
+                    <div class="item">
+                        <div class="item-inputs" data-delete-icon="{{ url_for('static', filename='images/trash-sign.svg') }}">
+                            <div class="item-input">
+                                <input type="text" class="item-input-name" name="item_name[]" placeholder="Item name" required>
+                                <input type="number" class="item-input-price" min="1" step="any" name="item_price[]" placeholder="Amount" style="width: 100px;" required>
+                                <input type="number" class="item-input-qty" min="1" max="99" name="item_qty[]" placeholder="Quantity" style="width: 100px; margin-right: 50px" required>
+                                <button type="button"><img src="{{ url_for('static', filename='images/trash-sign.svg') }}"></button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="invoice-upload-buttons">
+                    <button type="submit" class="user-add-submit">Submit</button>
+                    <button type="button" class="invoice-details-btn" id="invoice-details" data-popup-close="invoice-details-popup">Close</button>
+                </div>
+            </form>
+        </div>            
+    </div>  
+    <div class="overlay" id="invoice-removal-popup">
+        <div class="user-add-popup">
+            <div class="user-popup-heading" id="role-popup-heading">
+                <span class="invoice-popup-title">Are you sure?</span>
+                <p class="invoice-popup-desc">This action will permanently delete this data!</p>
+            </div>
+            <form method="POST" action="/remove-invoice" class="user-add-form">
+                <input type="hidden" name="invoice_id" id="invoice-id-input">
+                <button type="submit" class="user-add-submit" id="invoice-removal-submit">Yes, delete</button>
+            </form>
+        </div>            
+    </div>                     
+</div>
+{% endblock %}

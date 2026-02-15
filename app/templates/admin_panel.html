@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_panel.css') }}">
+{% endblock %}
+
+{% block title %}Admin panel{% endblock %}
+
+{% block body %}
+<body>
+    <div class="panel-container">
+        {% include 'sidebar.html' %}
+
+        <div class="panel-admin">
+            <div class="panel-admin-first">
+                <h3>Admin panel</h3>
+
+                <button class="add-user-btn" id="add-entity-btn">Add user</button>
+            </div>
+
+            <div class="panel-admin-info">
+                <div class="panel-admin-second">
+                    <div class="panel-admin-users">
+                        <button class="panel-admin-users-btn active">
+                            <img src="{{ url_for('static', filename='images/users-ico.svg') }}">
+                            Users
+                        </button>
+                    </div>
+                    <div class="panel-admin-roles">
+                        <button class="panel-admin-roles-btn">
+                            <img src="{{ url_for('static', filename='images/roles-ico.svg') }}">
+                            Roles
+                        </button>
+                    </div>
+                    <div class="panel-admin-invoices">
+                        <button class="panel-admin-invoices-btn">
+                            <img src="{{ url_for('static', filename='images/invoices-ico.svg') }}">
+                            Invoices
+                        </button>
+                    </div>
+                    <div class="panel-admin-stat">
+                        <button class="panel-admin-stat-btn">
+                            <img src="{{ url_for('static', filename='images/stat-ico.svg') }}">
+                            Statistics
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-tab-scrollable" id="user-tab" style="display: block;">
+                    <div class="user_cards" id="user-cards">
+                        <h2>Admins</h2>
+                        {% for admin in admins %}                  
+                            <div class="user_item">
+                                <div class="user_item_single">
+                                    <img src="{{ url_for('static', filename=admin.profile_img) }}" width="140" height="140" style="border-radius: 50%; object-fit:cover">
+                                    <h3>{{ admin.name }}</h3>
+                                    <span>{{ admin.role.capitalize() }}</span>
+                                </div>
+                                <p>{{ admin.bio[:100] }}{% if admin.bio|length > 100 %}...{% endif %}</p>
+                                {% if not current_user.name == admin.name %}
+                                    <button id="edit-user" 
+                                    data-name="{{ admin.name }}"
+                                    data-email="{{ admin.email }}"
+                                    data-role="{{ admin.role }}"
+                                    data-user-id="{{ admin.id }}">Edit user</button>
+                                {% endif %}
+                            </div> 
+                        {% endfor %}
+                            
+                        {% if managers %}
+                            <h2>Managers</h2>
+                            {% for manager in managers %}
+                                <div class="user_item">
+                                    <div class="user_item_single">
+                                        <img src="{{ url_for('static', filename=manager.profile_img) }}" width="140" height="140" style="border-radius: 50%; object-fit:cover">
+                                        <h3>{{ manager.name }}</h3>
+                                        <span>{{ manager.role.capitalize() }}</span>
+                                    </div>
+                                    <p>{{ manager.bio[:100] }}{% if manager.bio|length > 100 %}...{% endif %}</p>
+                                    <button id="edit-user"
+                                    data-name="{{ manager.name }}"
+                                    data-email="{{ manager.email }}"
+                                    data-role="{{ manager.role }}"
+                                    data-user-id="{{ manager.id }}">Edit user</button>
+                                </div>     
+                            {% endfor %}                                            
+                        {% endif %}
+                        
+                        {% if others %}
+                            <h2>Other</h2>
+                            {% for other in others %}
+                                <div class="user_item">
+                                    <div class="user_item_single">
+                                        <img src="{{ url_for('static', filename=other.profile_img) }}" width="140" height="140" style="border-radius: 50%; object-fit:cover">
+                                        <h3>{{ other.name }}</h3>
+                                        <span>{{ other.role.capitalize() }}</span>
+                                    </div>
+                                    <p>{{ other.bio[:100] }}{% if other.bio|length > 100 %}...{% endif %}</p>
+                                    <button id="edit-user"
+                                    data-name="{{ other.name }}"
+                                    data-email="{{ other.email }}"
+                                    data-role="{{ other.role }}"
+                                    data-user-id="{{ other.id }}">Edit user</button>
+                                </div>
+                            {% endfor %}  
+                        {% endif %}                                                 
+                    </div>                        
+                </div>                 
+                <div class="panel-tab-scrollable" id="role-tab" style="display: none;">
+                    <ul class="user_cards">
+                        {% for role in roles %}
+                            <li class="user_item" id="role_item">
+                                <div class="user_item_single">
+                                    <img src="{{ url_for('static', filename=role.icon) }}" style="padding: 30px; background-color:  {{ role.color }}; border-radius: 300px">
+                                    <h3>{{ role.name.title() }}</h3>
+                                </div>
+                                <button id="delete-role-btn" data-role-id="{{ role.id }}" {% if role.root %}disabled{% endif %}>Delete role</button>
+                            </li>     
+                        {% endfor %}
+                    </ul>
+                </div> 
+                <div class="panel-tab-scrollable" id="invoices-tab" style="display: none;">
+                    <!-- FIXED: implement this on production -->
+                    <select name="invoice-statuses" id="invoice-statuses">
+                        <option value="all">All</option>
+                        <option value="requested">Requested</option>
+                        <option value="paid">Paid</option>
+                        <option value="declined">Declined</option>
+                    </select>
+                    
+                    <ul class="user_cards">
+                        {% if invoices %}
+                            {% for invoice in invoices %}
+                                <li class="user_item" id="invoice-item">
+                                    <div class="user_item_single">
+                                        <div class="img-bg" style="background-color: {{ invoice.color }};">
+                                            <img src="{{ url_for('static', filename='images/invoice.svg') }}" width="48">
+                                        </div>
+                                        <h3>
+                                            {% if invoice.title|length > 10 %}
+                                                {{ invoice.title[:10] }}..
+                                            {% else %}
+                                                {{ invoice.title }}
+                                            {% endif %}
+                                        </h3>                                        
+                                    </div>
+                                    <div class="status-btns">
+                                        {% if invoice.status == 'requested' %}
+                                            <div class="top_row">
+                                                <button class="paid" data-invoice-id="{{ invoice.id }}" style="background-color: var(--button-success-color);">Paid</button>
+                                                <button class="decline" data-invoice-id="{{ invoice.id }}" style="background-color: var(--button-close-color);">Decline</button>
+                                            </div>
+                                        {% endif %}
+                                        <button class="details"
+                                        data-name="{{ invoice.title }}"
+                                        data-date="{{ invoice.date_created }}"
+                                        data-status="{{ invoice.status }}"
+                                        data-items="{{ invoice.items_json }}"
+                                        data-from="{{ invoice.from_address }}"
+                                        data-number="{{ invoice.id }}"
+                                        data-note="{{ invoice.note }}"
+                                        data-root="true">View details</button>
+                                    </div>
+                                </li> 
+                            {% endfor %}
+                        {% else %} 
+                            <p style="font-family: K2D; color: var(--text-color-primary);">No invoices found.</p> 
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="panel-tab-scrollable" id="stat-tab" style="display: none;">
+                    <ul class="user_cards">
+                        <li class="user_item" id="stat-item">
+                            <div class="user_item_single">
+                                <h3>{{ team_count }}</h3>
+                                <span>Team members</span>
+                            </div>
+                            <button class="stat-button" id="stat-team">Go to Team</button>
+                        </li>                        
+                        <li class="user_item" id="stat-item">
+                            <div class="user_item_single">
+                                <h3>{{ invoices_total }}</h3>
+                                <span>Total invoices</span>
+                            </div>
+                            <button class="stat-button" id="stat-invoices">Go to Invoices</button>
+                        </li>                        
+                        <li class="user_item" id="stat-item">
+                            <div class="user_item_single">
+                                <h3>{{ roles_count }}</h3>
+                                <span>Total roles</span>
+                            </div>
+                            <button class="stat-button" id="stat-roles">Go to Roles</button>
+                        </li>                        
+                        <li class="user_item" id="stat-item">
+                            <div class="user_item_single">
+                                <h3>{{ todos_total }}</h3>
+                                <span>Total todos</span>
+                            </div>
+                            <a href="/todo" class="stat-button">Go to Todo</a>
+                        </li>                     
+                    </ul>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="popups">
+        <div class="overlay" id="user-add-popup">
+            <div class="user-add-popup">
+                <div class="user-popup-heading">
+                    <span class="login-form-title">Add new user</span>
+                    <p class="login-form-desc">Please insert email, role and password for the new user.</p>
+                </div>
+                <form method="POST" action="/user-add" id="user-add-form" class="user-add-form">
+                    <div class="email-block">
+                        <span>Email<span style="color: red">*</span></span>
+                        <input type="email" name="email" placeholder="foo@bar.com" required>
+                    </div>
+                    <div class="password-block">
+                        <span>Password<span style="color: red">*</span></span>
+                        <input type="password" name="password" placeholder="••••••••" required>
+                    </div>
+                    <div class="role-block">
+                        <span>Role<span style="color: red">*</span></span>
+                        <select name="role" aria-placeholder="Choose role" required>
+                            <option value="" disabled selected hidden>Select a role</option>
+                            {% for role in roles %}
+                                <option value="{{ role.name }}">{{ role.name.title() }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="user-add-submit">Submit</button>
+                </form>
+                <p class="error-message" style="display: none;"></p>
+            </div>            
+        </div>
+        <div class="overlay" id="user-edit-popup">
+            <div class="user-add-popup">
+                <div class="user-popup-heading">
+                    <span class="user-name-title">Edit Chris</span>
+                    <p class="login-form-desc">Edit user’s name, email, password or role</p>
+                </div>
+                <form method="POST" action="/edit-user" class="user-add-form" id="user-edit-form">
+                    <input type="hidden" name="user_id" id="user-id-input">
+                    <input type="hidden" name="action" id="action-input" value="edit">
+                    <div class="name-block">
+                        <span>Name</span>
+                        <input type="text" name="name" placeholder="Enter name">
+                    </div>
+                    <div class="email-block">
+                        <span>Email</span>
+                        <input type="email" name="email" placeholder="foo@bar.com">
+                    </div>
+                    <div class="password-block">
+                        <span>New password</span>
+                        <input type="text" name="new_password" placeholder="••••••••">
+                    </div>
+                    <div class="role-block">
+                        <span>Role</span>
+                        <select name="role" aria-placeholder="Choose role" >
+                            {% for role in roles %}
+                                <option value="{{ role.name }}">{{ role.name.title() }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="user-edit-buttons" style="display: flex; gap:10px;">
+                        <button type="submit" class="user-add-submit" id="user-edit-submit" onclick="document.getElementById('action-input').value='edit'">Edit</button>
+                        <button type="submit" class="user-add-submit" id="user-delete-submit" onclick="document.getElementById('action-input').value='delete'">Delete</button>
+                    </div>
+                </form>
+                <p class="error-message" style="display: none;"></p>
+            </div>            
+        </div>        
+        <div class="overlay" id="role-add-popup">
+            <div class="user-add-popup">
+                <div class="user-popup-heading">
+                    <span class="login-form-title">Add new role</span>
+                    <p class="login-form-desc">Please insert role name</p>
+                </div>
+                <form method="POST" action="/role-add" class="user-add-form" id="role-add-form">
+                    <div class="role-block">
+                        <span>Role name<span style="color: red">*</span></span>
+                        <input type="text" name="role_name" placeholder="e.g Manager" required>
+                    </div>
+                    <button type="submit" class="user-add-submit">Submit</button>
+                </form>
+                <p class="error-message" style="display: none;"></p>
+            </div>            
+        </div>        
+        <div class="overlay" id="role-removal-popup">
+            <div class="user-add-popup">
+                <div class="user-popup-heading" id="role-popup-heading">
+                    <span class="login-form-title">Are you sure?</span>
+                    <p class="login-form-desc">This action will permanently delete this data!</p>
+                </div>
+                <form method="POST" action="/remove-role" class="user-add-form">
+                    <input type="hidden" name="role_id" id="role-id-input">
+                    <button type="submit" class="user-add-submit" id="role-removal-submit">Yes, delete</button>
+                </form>
+            </div>            
+        </div>        
+        <div class="overlay" id="invoice-details-popup">
+            <div class="user-add-popup">
+                <div class="user-popup-heading">
+                    <span class="invoice-details-title">View Project X invoice</span>
+                    <p class="invoice-details-desc">View invoice details, statuses and notes here.</p>
+                </div>
+                <div class="invoice-data" style="font-family: Arial, sans-serif; max-width: 700px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h2 style="margin: 0; font-family: 'K2D'; font-weight: 200; color: var(--text-color-primary)">Team Dashboard</h2>
+                            <p style="margin: 4px 0; font-family: 'K2D'; font-weight: 200;">255 S Orange Avenue<br>Suite 104 #2397<br>Orlando, FL, 23801</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <h3 style="margin-bottom: 0; color: var(--text-color-primary)">INVOICE</h3>
+                            <p style="margin: 4px 0; color: var(--text-color-primary)" id="invoice-date"><strong>Date:</strong> 12.12.1999</p>
+                            <p style="margin: 4px 0; color: var(--text-color-primary)" id="invoice-number"><strong>Invoice #:</strong> INV-00123</p>
+                        </div>
+                    </div>
+
+                    <!-- Billing Info -->
+                    <div style="margin: 20px 0;" id="billing-info">
+                        <p><strong>Billed To:</strong></p>
+                        <p style="margin: 4px 0;">Client Company Name</p>
+                        <p style="margin: 4px 0;">Client Address Line 1</p>
+                        <p style="margin: 4px 0;">Client Address Line 2</p>
+                    </div>
+
+                    <!-- Items Table -->
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; border-bottom: 2px solid #ccc; padding: 8px; color: var(--text-color-primary)">Description</th>
+                                <th style="text-align: right; border-bottom: 2px solid #ccc; padding: 8px; color: var(--text-color-primary)">Quantity</th>
+                                <th style="text-align: right; border-bottom: 2px solid #ccc; padding: 8px; color: var(--text-color-primary)">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px; color: var(--text-color-primary)">Video edit work</td>
+                                <td style="padding: 8px; text-align: right; color: var(--text-color-primary)">$500</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; color: var(--text-color-primary)">Video marketing</td>
+                                <td style="padding: 8px; text-align: right; color: var(--text-color-primary)">$499</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <!-- TODO: change on prod -->
+                                <td colspan="2" style="padding: 8px; border-top: 2px solid #ccc; color: var(--text-color-primary)"><strong>Total</strong></td>
+                                <td style="padding: 8px; text-align: right; border-top: 2px solid #ccc; color: var(--text-color-primary)"><strong>$999</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Status & Notes -->
+                    <div style="margin-top: 30px;" id="status-notes">
+                        <p><strong>Status:</strong> <span style="color: red;">Declined</span></p>
+                        <p><strong>Notes:</strong> Additional information required</p>
+                    </div>
+                </div>
+                
+                <div class="invoice-buttons" style="display: flex;flex-direction: row; gap: 10px">
+                    <button type="submit" class="invoice-details-btn" id="invoice-details" data-popup-close="invoice-details-popup">Close</button>
+                </div>
+            </div>            
+        </div>        
+        <div class="overlay" id="invoice-set-note-popup">
+            <div class="user-add-popup">
+                <div class="user-popup-heading">
+                    <span class="login-form-title">Set invoice note</span>
+                    <p class="login-form-desc">Insert your invoice note here.</p>
+                </div>
+                <form method="POST" action="/set-note" class="user-add-form" id="invoice-form">
+                    <div class="note-block">
+                        <span>Note<span style="color: red">*</span></span>
+                        <input type="text" name="note" placeholder="e.g Additional information required">
+                    </div>
+                    <div class="bottom_row" style="width: auto;">
+                        <button type="submit" class="user-add-submit" id="note-back">Back</button>
+                        <button type="submit" class="user-add-submit" id="note-set-note">Set note</button>
+                    </div>
+                </form>
+            </div>            
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='ajax.js') }}"></script>
+</body>
+{% endblock %}

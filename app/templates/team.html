@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/team.css') }}">
+{% endblock %}
+
+{% block title %}Team{% endblock %}
+
+{% block body %}
+<body>
+    <div class="panel-container">
+        {% include 'sidebar.html' %}
+        <div class="panel-admin">
+            <div class="panel-admin-first">
+                <h3>Team</h3>
+                <p>View team members here</p>
+            </div>
+        
+            <div class="panel-admin-info">
+                <div class="panel-tab-scrollable" id="user-tab" style="display: block;">
+                    <div class="user_cards" id="user-cards">
+                        <h2>Admins</h2>   
+                        {% for admin in admins %}                  
+                            <div class="user_item">
+                                <div class="user_item_single">
+                                    <img src="{{ url_for('static', filename=admin.profile_img) }}" width="140" height="140" style="border-radius: 50%; object-fit:cover">
+                                    <h3>{{ admin.name }}</h3>
+                                    <span>{{ admin.role.capitalize() }}</span>
+                                </div>
+                                <p>{{ admin.bio[:100] }}{% if admin.bio|length > 100 %}...{% endif %}</p>
+                                {% if not current_user.name == admin.name %}
+                                    <button id="view-user"
+                                    data-name="{{ admin.name }}"
+                                    data-email="{{ admin.email }}"
+                                    data-role="{{ admin.role }}"
+                                    data-bio="{{ admin.bio }}"
+                                    data-joined="{{ admin.joined }}"
+                                    data-profile-img="{{ admin.profile_img }}"
+                                    data-id="{{ admin.id }}">View</button>
+                                {% endif %}
+                            </div>      
+                        {% endfor %}   
+                        {% if managers %}                                          
+                            <h2>Managers</h2>
+                            {% for manager in managers %}
+                                <div class="user_item">
+                                    <div class="user_item_single">
+                                        <img src="{{ url_for('static', filename=manager.profile_img) }}" width="140" height="140" style="border-radius: 50%; object-fit:cover">
+                                        <h3>{{ manager.name }}</h3>
+                                        <span>{{ manager.role.capitalize() }}</span>
+                                    </div>
+                                    <p>{{ manager.bio[:100] }}{% if manager.bio|length > 100 %}...{% endif %}</p>
+                                    {% if not current_user.name == manager.name %}
+                                        <button id="view-user"
+                                        data-name="{{ manager.name }}"
+                                        data-email="{{ manager.email }}"
+                                        data-role="{{ manager.role }}"
+                                        data-bio="{{ manager.bio }}"
+                                        data-joined="{{ manager.joined }}"
+                                        data-profile-img="{{ manager.profile_img }}"
+                                        data-id="{{ manager.id }}">View</button>
+                                    {% endif %}
+                                </div>      
+                            {% endfor %}                   
+                        {% endif %} 
+                        
+                        {% if others %}
+                            <h2>Other</h2>
+                            {% for other in others %}
+                                <div class="user_item">
+                                    <div class="user_item_single">
+                                        <img src="{{ url_for('static', filename=other.profile_img) }}" width="140" height="140" style="border-radius: 50%; object-fit:cover">
+                                        <h3>{{ other.name }}</h3>
+                                        <span>{{ other.role.capitalize() }}</span>
+                                    </div>
+                                    <p>{{ other.bio[:100] }}{% if other.bio|length > 100 %}...{% endif %}</p>
+                                    {% if not current_user.name == other.name %}
+                                        <button id="view-user"
+                                        data-name="{{ other.name }}"
+                                        data-email="{{ other.email }}"
+                                        data-role="{{ other.role }}"
+                                        data-bio="{{ other.bio }}"
+                                        data-joined="{{ other.joined }}"
+                                        data-profile-img="{{ other.profile_img }}"
+                                        data-id="{{ other.id }}">View</button>
+                                    {% endif %}
+                                </div> 
+                            {% endfor %}                        
+                        {% endif %}                                                                        
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popups">
+        <div class="overlay" id="profile-details-popup">
+            <div class="profile-details-popup">
+                <span class="login-form-title">Chris Profile</span>
+
+                <div class="profile-details">
+                    <div class="profile-details-data">
+                        <p><span style="font-weight: 500;">Name:</span> Chris</p>
+                        <p><span style="font-weight: 500;">Bio:</span> Team lead with 3+ years of experience in project management and team coordination.</p>
+                        <p><span style="font-weight: 500;">Role:</span> Admin</p>
+                        <a href="mailto:chris@email.com"><span style="font-weight: 500;">Email:</span> chris@email.com</a>
+                        <p><span style="font-weight: 500;">Joined:</span> 12.07.2018</p>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/christopher-rizzo-ceo 1.png') }}">
+                </div>
+                <div class="profile-buttons" style="display: flex; gap: 10px">
+                    <button type="submit" class="profile-details-btn" id="profile-details" data-popup-close="profile-details-popup">Close</button>
+                    <!-- <button type="button" class="profile-details-btn" id="profile-calendar">Open calendar</button> -->
+                </div>
+            </div>        
+        </div>
+        <div class="overlay" id="profile-calendar-popup">
+            <div class="profile-calendar-popup">
+                <span class="calendar-user-name">Chris Calendar</span>
+                <div id="calendar"></div>
+                <button type="submit" class="profile-details-btn" id="profile-details" style="margin-top: 0" data-popup-close="profile-calendar-popup">Close</button>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

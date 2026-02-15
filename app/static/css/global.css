@@ -1,0 +1,38 @@
+:root {
+    --bg-color: #0F172A;
+    --third-bg-color: #0C1B34;
+    --secondary-bg-color: 12, 27, 52;
+    --button-primary-color: #0B61F1;
+    --button-secondary-color: #082149;
+    --button-hover-color: #0047BE;
+    --button-close-color: #CB2121;
+    --button-close-hover-color: #ac1e1e;
+    --button-success-color: #0AAA3D;
+    --button-success-hover-color: #099435;
+    --text-color-primary: #E3E3E3;
+}
+
+body {
+    background: var(--bg-color);
+    overflow-x: hidden;
+}
+
+.panel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 45px;
+    padding-right: 50px;
+}
+
+::-webkit-scrollbar-corner {background-color: transparent;}
+
+
+/* TODO: change it on prod */
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    text-align: center;
+    text-align-last: center; 
+}

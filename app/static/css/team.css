@@ -1,0 +1,398 @@
+.panel-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 55px;
+
+    height: 630px;
+    min-width: 630px;
+    width: 1195px;
+    background-color: var(--third-bg-color);
+    padding: 70px 50px;
+    border-radius: 20px;
+}
+
+
+.panel-admin-first {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.panel-admin-first h3 {
+    font-family: 'K2D';
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--text-color-primary);
+}
+
+.panel-admin-first p {
+    font-family: 'Inter';
+    font-weight: 300;
+    font-size: 18px;
+    color: var(--text-color-primary);
+}
+
+.panel-tab-scrollable {
+    border-radius: 20px;
+    padding: 20px;
+    background-color: var(--button-secondary-color);
+}
+
+#user-tab {
+    padding: 45px;
+}
+
+
+.user_cards {
+    display: flex;
+    gap: 20px;
+    padding-right: 45px;
+    overflow-x: scroll;
+    scrollbar-width: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+}
+
+#user-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    overflow-y: scroll;
+    scrollbar-width: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+    justify-items: center;
+    max-height: 400px;
+    box-sizing: border-box;
+}
+
+
+#user-cards h2 {
+    grid-column: 1 / -1;
+    margin-bottom: 20px;
+    font-family: 'K2D';
+    color: var(--text-color-primary);
+    font-size: 30px;
+}
+
+
+#user-cards::-webkit-scrollbar {
+    width: 8px;
+}
+
+.user_cards::-webkit-scrollbar {
+  height: 8px;
+}
+
+.user_cards::-webkit-scrollbar-track,
+#user-cards::-webkit-scrollbar-track {
+  background: none;
+}
+
+.user_cards::-webkit-scrollbar-thumb,
+#user-cards::-webkit-scrollbar-thumb {
+  background-color: var(--button-primary-color);
+  border-radius: 8px;
+}
+
+.user_cards::-webkit-scrollbar-thumb:hover,
+#user-cards::-webkit-scrollbar-thumb:hover {
+  background-color: #0e67d2;
+}
+
+.user_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    width: 230px;
+    flex-shrink: 0;
+    padding: 20px 32px;
+    background-color: var(--third-bg-color);
+    border-radius: 20px;
+}
+
+.user_item_single {
+    text-align: center;
+}
+
+.user_item_single h3 {
+    margin-top: 16px;
+    margin-bottom: 5px;
+
+    font-family: 'K2D';
+    font-weight: 400;
+    font-size: 25px;
+    text-align: center;
+    color: var(--text-color-primary);
+}
+
+.user_item_single span {    
+    font-family: 'K2D';
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    color: rgba(227, 227, 227, 0.4);
+}
+
+.user_item p {
+    max-width: 170px;
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 20px;
+    color: #fff;
+}
+
+.user_item button {
+    width: 125px;
+    height: 40px;
+    background-color: var(--button-primary-color);
+    border-radius: 10px;
+    color: var(--text-color-primary);
+    font-family: "K2D";
+    font-size: 13px;
+
+    transition: background-color linear 0.1s;
+}
+
+.user_item button:hover {
+    background-color: var(--button-hover-color);
+}
+
+
+/* Popups */
+
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    backdrop-filter: blur(20px);
+    background: rgba(0,0,0,0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+#calendar {
+    height: 550px;
+}
+
+#calendar h2,
+#calendar button {
+    font-family: 'K2D';
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--text-color-primary);
+}
+
+#calendar a {
+    font-family: 'Inter';
+    font-weight: 300;
+    font-size: 18px;
+    color: #000;
+}
+
+.fc-event-title,
+.fc-event-time {
+    font-size: 16px;
+    color: #fff;
+}
+
+#calendar button {
+    background-color: var(--button-secondary-color);
+    border: 0;
+
+    transition: background-color linear 0.1s;
+}
+
+#calendar button:hover {
+    background-color: var(--button-primary-color);
+}
+
+
+.fc-day {
+    background-color: #fff;
+    color: var(--text-color-primary);
+}
+
+.fc-day-today {
+    background-color: #c5c5c5 !important;
+    border: 1px solid #ddd;
+}
+
+.fc-daygrid-day {
+    cursor: pointer;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+}
+
+.fc-event {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+
+    transition: background-color linear 0.1s;
+}
+
+.fc-event:hover {
+    background-color: var(--button-secondary-color);
+}
+
+.profile-details-popup,
+.profile-calendar-popup {
+    position: fixed;
+
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    z-index: 999;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);    
+
+    background-color: var(--button-secondary-color);
+    border-radius: 20px;
+    padding: 30px 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.profile-calendar-popup {
+    width: 650px;
+}
+
+.profile-details {
+    display: flex;
+    gap: 54px;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-title,
+.calendar-user-name {
+    color: var(--text-color-primary);
+    
+    text-align: left;
+    font-family: 'K2D';
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.profile-details-data {
+    max-width: 374px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-details-data p,
+.profile-details-data span,
+.profile-details-data a {
+    max-width: 225px;
+    font-family: "K2D";
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 20px;
+    color: var(--text-color-primary);
+}
+
+
+.profile-details-btn {
+    margin-top: 15px;
+    width: 150px;
+    height: 40px;
+    text-align: center;
+    background-color: var(--button-primary-color);
+    color:var(--text-color-primary);
+
+    transition: background-color linear 0.1s;
+}
+
+.profile-details-btn:hover {
+    background-color: var(--button-hover-color);
+}
+
+
+/* Media requests */
+@media (max-width: 768px) {
+    .panel-admin {
+        min-width: 400px;
+        padding: 20px;
+        gap: 30px;
+    }
+    .panel-admin-second {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr); /* 300px */
+    }
+    .panel-admin-second div button {
+        width: 100%;
+        justify-content: center;
+    }
+    #user-cards {
+        grid-template-columns: repeat(2, 2fr);
+        max-height: 500px;
+    }
+    #user-tab {
+        padding: 20px;
+    }
+    .user_item {
+        padding: 20px 20px;
+    }
+}
+
+@media (max-width: 580px) {
+    .panel-admin-second {
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+    }
+    .overlay {
+        width: 100%;
+    }
+    .user-add-popup {
+        width: 330px;
+    }
+    .user-add-form,
+    .email-block,
+    .password-block {
+        width: 100%;
+    }
+    .email-block input,
+    .password-block input,
+    .name-block input,
+    .role-block input,
+    .note-block input {
+        width: auto;
+    }
+}
+
+@media (max-width: 460px) {
+    .panel-admin {
+        min-width: 300px;
+    }
+    .panel-admin-first {
+        align-items: center;
+    }
+    .panel-admin-first h3 {
+        font-size: 25px;
+    }
+    
+    #user-cards {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

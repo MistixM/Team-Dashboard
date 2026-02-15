@@ -1,0 +1,275 @@
+.panel-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 55px;
+
+    height: 630px;
+    min-width: 630px;
+    width: 1195px;
+    background-color: var(--third-bg-color);
+    padding: 70px 50px;
+    border-radius: 20px;
+}
+
+.panel-first-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.panel-first-heading h3 {
+    font-family: 'K2D';
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--text-color-primary);
+}
+
+.panel-first-heading p {
+    font-family: 'Inter';
+    font-size: 18px;
+    font-weight: 300;
+
+    color: var(--text-color-primary);
+}
+
+
+.panel-second {
+    display: flex;
+    gap: 10px;
+}
+
+.profile-tab {
+    display: flex;
+    background-color: var(--button-secondary-color);
+    border-radius: 20px;
+    padding: 64px 28px;
+    gap: 60px;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.email-block span,
+.name-block span,
+.desc-block span {
+    font-family: 'K2D';
+    font-weight: 500;
+    color: var(--text-color-primary);
+    font-size: 16px;
+}
+
+.email-block input,
+.name-block input,
+.desc-block textarea {
+    width: 387px;
+    padding: 15px;
+
+    background-color: rgb(217,217,217, 0.2);
+
+    border-radius: 10px;
+
+    color: #fff;
+
+    font-family: 'Inter';
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.email-block input ::placeholder
+.name-block input ::placeholder,
+.desc-block textarea ::placeholder {
+    color: #A3A3A3;
+    font-family: 'Inter';
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.email-block,
+.name-block,
+.desc-block {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profile-other {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.photo-title {
+    font-family: 'K2D';
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-color-primary);
+}
+
+.photo-buttons {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#upload-photo,
+#edit-btn {
+    width: 125px;
+    height: 40px;
+    text-align: center;
+    background-color: var(--button-primary-color);
+    color:var(--text-color-primary);
+
+    transition: background-color linear 0.1s;
+}
+
+#upload-photo:hover,
+#edit-btn:hover {
+    background-color: var(--button-hover-color);
+}
+
+#delete-photo {
+    width: 50%;
+
+    background: none;
+    font-family: 'K2D';
+    font-size: 13px;
+    color: var(--text-color-primary);
+}
+
+.profile-other-date {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.profile-flash {
+    font-size: 15px;
+    color: #FFF;
+    font-family: "K2D";
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.profile-flash.warning {
+    background-color: #d82e2e;
+}
+
+.profile-flash.info {
+    background-color: #2e89d8;
+}
+
+.profile-other-date span {
+    font-family: 'K2D';
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--text-color-primary);
+}
+
+.insights-tab {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--button-secondary-color);
+    padding: 30px;
+    gap: 30px;
+    border-radius: 20px;
+}
+
+.insights-title {
+    font-family: 'K2D';
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--text-color-primary);
+}
+
+.insigths-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+}
+
+.insight-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.insight-item span {
+    font-family: 'Inter';
+    font-size: 25px;
+    font-weight: 400;
+    color: var(--text-color-primary);
+}
+
+#logout-submit {
+    width: 200px;
+    height: 40px;
+
+    background-color: var(--button-close-color) !important;
+}
+
+#logout-submit:hover {
+    background-color: var(--button-close-hover-color) !important;
+}
+
+
+/* Media requests */
+
+@media (max-width: 1295px) {
+    .panel-second {
+        flex-direction: column;
+    }
+    .insights-tab {
+        width: auto;
+    }
+    .panel-profile {
+        height: 800px;
+    }
+
+}
+@media (max-width: 768px) {
+    .panel-profile {
+        min-width: 400px;
+        padding: 20px;
+        gap: 30px;
+        height: 550px;
+    }
+    .insights-tab {
+        display: none;
+    }
+    .email-block input, 
+    .name-block input, 
+    .desc-block textarea {
+        width: auto;
+    }
+
+}
+
+@media (max-width: 580px) {
+    .profile-tab {
+        gap: 35px;
+    }
+}
+
+@media (max-width: 460px) {
+    .panel-profile {
+        min-width: 300px;
+        height: 900px;
+    }
+    .profile-tab {
+        flex-direction: column;
+    }
+    .panel-first-heading h3 {
+        font-size: 25px;
+    }
+}

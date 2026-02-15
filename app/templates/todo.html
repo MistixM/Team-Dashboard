@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/todo.css') }}">
+{% endblock %}
+
+{% block title %}ToDo{% endblock %}
+
+{% block body %}
+<div class="panel-container">
+    {% include 'sidebar.html' %}
+    <div class="panel-todo">
+        <div class="panel-todo-first">
+            <div class="panel-first-heading">
+                <h3>ToDo</h3>
+                <p>Manage your todos here.</p>
+            </div>
+            <button id="todo-create">Create todo</button>
+        </div>
+        <div class="panel-tab-scrollable" id="todo-tab">
+            <ul class="user_cards">
+                {% if todos %}
+                    {% for todo in todos %}
+                        <li class="user_item" id="invoice-item">
+                            <div class="user_item_single">
+                                <div class="img-bg" style="background-color: {{ todo.color }};">
+                                    <img src="{{ url_for('static', filename='images/todo.svg') }}" width="48">
+                                </div>
+                                <h3>{{ todo.title[:10] }}{% if todo.title|length > 20 %}...{% endif %}</h3>
+                                <span class="invoice-status">Status: {{ todo.status.capitalize() }}</span>
+                            </div>
+                            <div class="status-btns">
+                                <button class="details" style="width: 100%;" id="todo-view-details"
+                                data-name="{{ todo.title }}"
+                                data-description="{{ todo.description }}"
+                                data-links="{{ todo.links }}"
+                                data-todo-id="{{ todo.id }}"
+                                data-deadline="{{ todo.deadline }}">View details</button>
+                                
+                                {% if todo.status == 'doing' %}
+                                    <button id="todo-done" style="background-color: var(--button-success-color);width: 100%;"
+                                    data-todo-id="{{ todo.id }}">Mark as done</button>
+                                {% else %}
+                                    <button id="todo-remove" style="background-color: var(--button-close-color);width: 100%;"
+                                    data-todo-id="{{ todo.id }}">Remove</button>
+                                {% endif %}
+                            </div>
+                        </li> 
+                    {% endfor %}
+                {% else %}
+                    <p style="color: var(--text-color-primary); font-family: 'K2D';">No todo found</p>    
+                {% endif %}                                                   
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="popups">
+    <div class="overlay" id="todo-edit-popup">
+        <div class="todo-details-popup">
+            <div class="todo-popup-heading">
+                <span class="todo-form-title">Todo details</span>
+                <p class="todo-form-desc">View or edit your todo title, description and links. </p>
+            </div>
+            <form method="POST" action="/update-todo" class="todo-details-form">
+                <div class="todo-inputs">
+                    <div class="title-block">
+                        <span>Title</span>
+                        <input type="text" name="title" value="Bad frame size" placeholder="Enter title">
+                    </div>
+                    <div class="description-block">
+                        <span>Description</span>
+                        <input type="text" name="description" value="Need to change export settings, since current video has weird bugs with frame." placeholder="Enter description">
+                    </div>
+                    <div class="date-block">
+                        <span>Date</span>
+                        <input type="date" name="date" placeholder="Enter date">
+                    </div>
+                    <div class="links-block">
+                        <span>Links</span>
+                        <input type="text" name="links" value="https://youtube.com" placeholder="Enter links">
+                    </div>
+                </div>
+
+                <div class="todo-buttons">
+                    <button type="button" class="user-add-submit" id="todo-close">Close</button>
+                    <button type="submit" class="user-add-submit">Submit</button>
+                </div>
+            </form>
+        </div>            
+    </div>
+    <div class="overlay" id="todo-create-popup">
+        <div class="todo-details-popup">
+            <div class="todo-popup-heading">
+                <span class="todo-form-title">Create todo</span>
+                <p class="todo-form-desc">Insert title, description and links if necessary.</p>
+            </div>
+            <form method="POST" action="/add-todo" class="todo-details-form">
+                <div class="todo-inputs">
+                    <div class="title-block">
+                        <span>Title</span>
+                        <input type="text" name="title" placeholder="Enter title" required>
+                    </div>
+                    <div class="description-block">
+                        <span>Description</span>
+                        <input type="text" name="description" placeholder="Enter description" required>
+                    </div>                    
+                    <div class="date-block">
+                        <span>Deadline</span>
+                        <input type="date" name="date" placeholder="Choose date" required>
+                    </div>
+                    <div class="links-block">
+                        <span>Links (optional)</span>
+                        <p>Use semicolon as separator</p>
+                        <input type="text" name="links" placeholder="Insert links">
+                    </div>
+                </div>
+
+                <button type="submit" class="user-add-submit">Submit</button>
+            </form>
+        </div>            
+    </div> 
+</div>
+{% endblock %}
